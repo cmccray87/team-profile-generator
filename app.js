@@ -12,8 +12,8 @@ const render = require("./lib/htmlRenderer");
 
 const team = [];
 
-// Prompt user for roles to enter 
-function employeeInformation() {
+// prompt - user roles
+function employeeInfo() {
    inquirer.prompt([
     {
       type: "list",
@@ -23,19 +23,19 @@ function employeeInformation() {
     },
   ]).then(val => {
     if (val.name === "Manager") {
-      managerInformation();
+      managerInfo();
     } else if (val.name === "Engineer") {
-      engineerInformation()
+      engineerInfo()
     } else if (val.name === "Intern") {
-      internInformation();
+      internInfo();
     } else if (val.name === "Show Summary") {
       generateHTML(outputPath, render(team));
     };
   }); 
 }; // end of function 
 
-// Prompt to collect information on manager and then go back to enter a new employee
-function managerInformation() {
+// prompt - manager info
+function managerInfo() {
   return inquirer.prompt([
     {
       type: "input",
@@ -61,13 +61,13 @@ function managerInformation() {
     let manager = new Manager(answer.name, answer.id, answer.email, answer.number)
     team.push(manager);
 
-    employeeInformation()
+    employeeInfo()
   })
 }; // end of function 
 
 
-// Prompt to collect information on engineer and then go back to enter a new employee
-function engineerInformation() {
+// prompt - engineer info
+function engineerInfo() {
   return inquirer.prompt([
     {
       type: "input",
@@ -93,13 +93,13 @@ function engineerInformation() {
     let engineer = new Engineer(answer.name, answer.id, answer.email, answer.GitHub)
     team.push(engineer);
 
-    employeeInformation()
+    employeeInfo()
   })
-}; // end of function 
+}; 
 
 
-// Prompt to collect information on intern and then go back to enter a new employee
-function internInformation() {
+// prompt - intern info
+function internInfo() {
   return inquirer.prompt([
     {
       type: "input",
@@ -125,11 +125,11 @@ function internInformation() {
     let intern = new Intern(answer.name, answer.id, answer.email, answer.school)
     team.push(intern);
 
-    employeeInformation()
+    employeeInfo()
   })
-}; // end of function 
+}; 
 
-// write the answers to a new README file
+// write answers
 function generateHTML(fileName, data) {
   fs.writeFile(fileName, data, "utf8", function (err) {
     if (err) {
@@ -140,5 +140,5 @@ function generateHTML(fileName, data) {
 };
 
 // Calls function to begin prompt for roles to enter
-employeeInformation();
+employeeInfo();
 
